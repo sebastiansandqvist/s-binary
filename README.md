@@ -2,7 +2,7 @@
 
 ## Work in progress
 
-[![NPM version](https://img.shields.io/npm/v/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Dependencies](https://img.shields.io/david/sebastiansandqvist/s-binary.svg) [![build status](http://img.shields.io/travis/sebastiansandqvist/s-binary.svg)](https://travis-ci.org/sebastiansandqvist/s-binary) [![NPM license](https://img.shields.io/npm/l/s-binary.svg)](https://www.npmjs.com/package/s-binary)
+[![NPM version](https://img.shields.io/npm/v/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Dependencies](https://img.shields.io/david/sebastiansandqvist/s-binary.svg) [![build status](http://img.shields.io/travis/sebastiansandqvist/s-binary.svg)](https://travis-ci.org/sebastiansandqvist/s-binary) [![NPM license](https://img.shields.io/npm/l/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Stability](https://img.shields.io/badge/stability-unstable-orange.svg) [![Test Coverage](https://codeclimate.com/github/sebastiansandqvist/s-binary/badges/coverage.svg)](https://codeclimate.com/github/sebastiansandqvist/s-binary)
 
 ## Usage
 ```javascript
@@ -10,6 +10,12 @@ var binary = require('s-binary');
 
 binary.toInt('11001100'); // returns 204
 binary.toHex('11001100'); // returns 'cc'
+binary.toBinary(204); // returns '11001100'
+
+binary.add('111', '1'); // returns '1000'
+binary.addBits('1', '1'); // returns {sum: '0', carry: '1'}
+
+binary.pad('01', 4); // returns '0001' (left pad)
 ```
 
 ## License
