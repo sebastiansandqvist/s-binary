@@ -1,5 +1,17 @@
 # s-binary 
+
+## Work in progress
+
 [![NPM version](https://img.shields.io/npm/v/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Dependencies](https://img.shields.io/david/sebastiansandqvist/s-binary.svg) [![build status](http://img.shields.io/travis/sebastiansandqvist/s-binary.svg)](https://travis-ci.org/sebastiansandqvist/s-binary) [![NPM license](https://img.shields.io/npm/l/s-binary.svg)](https://www.npmjs.com/package/s-binary)
+
+## Usage
+```javascript
+var binary = require('s-binary');
+
+binary.toInt('11001100'); // returns 204
+binary.toHex('11001100') // returns 'cc'
+```
+
 ## License
 Copyright (c) 2015, Sebastian Sandqvist <s.github@sparque.me>
 
