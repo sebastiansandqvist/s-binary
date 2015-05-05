@@ -9,7 +9,7 @@
 var binary = require('s-binary');
 
 binary.toInt('11001100'); // returns 204
-binary.toHex('11001100') // returns 'cc'
+binary.toHex('11001100'); // returns 'cc'
 ```
 
 ## License
