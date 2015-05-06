@@ -31,6 +31,17 @@ describe('unit conversion', function() {
 		expect(binary.toBinary(255)).to.equal('11111111');
 	});
 
+	it('should convert strings to binary', function() {
+		expect(binary.toBinary('test')).to.equal('01110100011001010111001101110100');
+		expect(binary.toBinary('hi')).to.equal('0110100001101001');
+	});
+
+	it('should convert buffers to binary', function() {
+		var buf = new Buffer(2);
+		buf.write('hi');
+		expect(binary.toBinary(buf)).to.equal('0110100001101001');
+	});
+
 });
 
 describe('arithmetic', function() {
@@ -155,15 +166,36 @@ describe('logic', function() {
 
 describe('etc', function() {
 
-	it('should equalize (by padding) lengths', function() {
+	it('equalize', function() {
 		expect(binary.equalize('000', '1111')).to.deep.equal(['0000', '1111']);
 		expect(binary.equalize('0000', '111')).to.deep.equal(['0000', '0111']);
 	});
 
-	it('should pad binary values', function() {
+	it('pad', function() {
 		expect(binary.pad('0111', 8)).to.equal('00000111');
 		expect(binary.pad('0111', 2)).to.equal('0111');
 		expect(binary.pad('11111111', 16)).to.equal('0000000011111111');
+	});
+
+	it('padSafe (normal)', function(done) {
+		binary.padSafe('0111', 8, function(err, value) {
+			expect(err).to.be.null;
+			expect(value).to.equal('00000111')
+			done();
+		});
+	});
+	
+	it('padSafe (error)', function(done) {
+		binary.padSafe('0111', 2, function(err, value) {
+			expect(err.message).to.include('input length exceeds expected length of output');
+			expect(value).to.equal('0111');
+			done();
+		});
+	});
+
+	it('split', function() {
+		expect(binary.split('1011', 2)).to.deep.equal(['10','11']);
+		expect(binary.split('10111', 3)).to.deep.equal(['101','11']);
 	});
 
 });

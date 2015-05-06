@@ -21,13 +21,46 @@ binary.toHex = function(str) {
 	return parseInt(str, 2).toString(16);
 };
 
+
+// @param n {Number | String | Buffer} input
+// @return {String} 8bit binary conversion
+// todo: get more test cases & verify
 binary.toBinary = function(n) {
-	return n.toString(2);
+
+	var type = Object.prototype.toString.call(n)
+
+	switch (type) {
+
+		case '[object Number]':
+			return n.toString(2);
+
+		default: // strings and buffers
+
+			var output = '';
+		
+			for (var i = 0; i < n.length; i++) {
+		
+				var cur = typeof n[i] === 'number' ?
+					binary.pad(n[i].toString(2), 8) // buffers
+					: binary.pad(n.charCodeAt(i).toString(2), 8); // strings
+		
+				output += cur;
+
+			}
+
+			return output;
+
+	}
+
 };
 
 
 // ----- arithmetic
 // ---------------------------------------
+
+// @param a {String} binary number
+// @param b {String} binary number
+// todo: @param n {Number} optional bitLength restriction
 binary.add = function(a, b) {
 	a = parseInt(a, 2);
 	b = parseInt(b, 2);
@@ -47,12 +80,18 @@ binary.addBits = function(a, b) {
 	};
 };
 
+// @param a {String} binary number
+// @param b {String} binary number
+// todo: @param n {Number} optional bitLength restriction
 binary.multiply = function(a, b) {
 	a = parseInt(a, 2);
 	b = parseInt(b, 2);
 	return (a * b).toString(2);
 };
 
+// @param a {String} binary number
+// @param b {String} binary number
+// todo: @param n {Number} optional bitLength restriction
 binary.divide = function(a, b) {
 	a = parseInt(a, 2);
 	b = parseInt(b, 2);
@@ -152,6 +191,10 @@ binary.complement = function(str) {
 
 // ----- etc
 // ---------------------------------------
+
+// @param str {String} binary string
+// @param n {Number} length of output
+// @return {String} left-padded binary string
 binary.pad = function(str, n) {
 	while (str.length < n) {
 		str = '0' + str;
@@ -159,6 +202,28 @@ binary.pad = function(str, n) {
 	return str;
 };
 
+// @param str {String} binary string
+// @param n {Number} length of output
+// @param fn {Function} callback
+// @return {Function} callback(err, result)
+binary.padSafe = function(str, n, fn) {
+
+	while (str.length < n) {
+		str = '0' + str;
+	}
+
+	if (str.length > n) {
+		var err = new Error('input length exceeds expected length of output');
+		return fn(err, str);
+	}
+
+	return fn(null, str);
+
+};
+
+// @param a {String} binary string
+// @param b {String} binary string
+// @return {Array} [(padded) a, (padded) b]
 binary.equalize = function(a, b) {
 
 	var aLen = a.length;
@@ -174,4 +239,12 @@ binary.equalize = function(a, b) {
 
 	return [a, b];
 
+};
+
+// @param str {String} binary string
+// @param length {Number} number of characters per chunk
+// @return {Array}
+binary.split = function(str, length) {
+	var regex = new RegExp('.{1,' + length + '}', 'g'); // /.{1,8}/g
+	return str.match(regex);
 };

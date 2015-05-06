@@ -29,9 +29,10 @@ binary.toInt('11001100'); // returns 204
 binary.toHex('11001100'); // returns 'cc'
 ```
 
-##### integer to binary
+##### string/integer/buffer to binary
 ```javascript
 binary.toBinary(204); // returns '11001100'
+binary.toBinary('foo'); // returns '011001100110111101101111'
 ```
 
 ### Arithmetic
@@ -93,9 +94,28 @@ binary.complement('00000101'); // returns '11111011'
 ```
 
 ### Helper methods
+##### (Left) pad
 ```javascript
 binary.pad('01', 4); // returns '0001' (left pad)
+```
+
+##### Pad (and return error if input length > output length)
+```javascript
+binary.padSafe('111111', 2, function(err, output) {
+	if (!err) {
+		return output; // this will not run
+	}
+});
+```
+
+##### Equalize lengths by padding shorter value
+```javascript
 binary.equalize('11', '0001'); // returns ['0011', '0001']
+```
+
+##### Split
+```javascript
+binary.split('1111111100000000', 8); // returns ['11111111', '00000000']
 ```
 
 ## License
