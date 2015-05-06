@@ -27,30 +27,25 @@ binary.toHex = function(str) {
 // todo: get more test cases & verify
 binary.toBinary = function(n) {
 
-	var type = Object.prototype.toString.call(n)
+	var type = Object.prototype.toString.call(n);
 
-	switch (type) {
+	if (type === '[object Number]') {
+		return n.toString(2);
+	}
 
-		case '[object Number]':
-			return n.toString(2);
+	var output = '';
 
-		default: // strings and buffers
+	for (var i = 0; i < n.length; i++) {
 
-			var output = '';
-		
-			for (var i = 0; i < n.length; i++) {
-		
-				var cur = typeof n[i] === 'number' ?
-					binary.pad(n[i].toString(2), 8) // buffers
-					: binary.pad(n.charCodeAt(i).toString(2), 8); // strings
-		
-				output += cur;
+		var cur = typeof n[i] === 'number' ?
+			binary.pad(n[i].toString(2), 8) // buffers
+			: binary.pad(n.charCodeAt(i).toString(2), 8); // strings
 
-			}
-
-			return output;
+		output += cur;
 
 	}
+
+	return output;
 
 };
 
