@@ -1,6 +1,6 @@
 {
   "name": "s-binary",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple operations for binary strings",
   "main": "index.js",
   "directories": {
