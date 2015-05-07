@@ -17,6 +17,7 @@ npm install --save s-binary
 ```
 
 ## Available methods
+*This module assumes big-endian byte order*
 
 ### Unit conversion
 ##### binary to integer
@@ -27,6 +28,11 @@ binary.toInt('11001100'); // returns 204
 ##### binary to hex
 ```javascript
 binary.toHex('11001100'); // returns 'cc'
+```
+
+##### binary to Unicode
+```javascript
+binary.toUnicode('0110100001101001'); // returns 'hi'
 ```
 
 ##### string/integer/buffer to binary
@@ -116,6 +122,13 @@ binary.equalize('11', '0001'); // returns ['0011', '0001']
 ##### Split
 ```javascript
 binary.split('1111111100000000', 8); // returns ['11111111', '00000000']
+```
+
+##### LSB (get least significant bits)
+*Last bit from each byte. Note: bytes can be of any length.*
+```javascript
+var data = ['01000100', '11001100', '01010101'];
+binary.lsb(data); // returns '001'
 ```
 
 ## License

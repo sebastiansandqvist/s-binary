@@ -11,6 +11,7 @@
 
 var binary = module.exports = {};
 
+
 // ----- unit conversion
 // ---------------------------------------
 binary.toInt = function(str) {
@@ -21,6 +22,11 @@ binary.toHex = function(str) {
 	return parseInt(str, 2).toString(16);
 };
 
+// binary.toBase64 = function(str) {
+// 	str = parseInt(str, 2).toString();
+// 	var buf = new Buffer(str);
+// 	return buf.toString('base64');
+// };
 
 // @param n {Number | String | Buffer} input
 // @return {String} 8bit binary conversion
@@ -45,6 +51,23 @@ binary.toBinary = function(n) {
 
 	}
 
+	return output;
+
+};
+
+
+// @param str {String} binary string
+// @return {String} Unicode string
+binary.toUnicode = function(str) {
+
+	var arr = binary.split(str);
+	var output = '';
+	
+	for (var i=0, len=arr.length; i<len; i++) {
+		var integer = binary.toInt(arr[i]);
+		output += String.fromCharCode(integer);
+	}
+	
 	return output;
 
 };
@@ -237,9 +260,29 @@ binary.equalize = function(a, b) {
 };
 
 // @param str {String} binary string
-// @param length {Number} number of characters per chunk
+// @param length {Number} optional number of characters per chunk; default is 8
 // @return {Array}
 binary.split = function(str, length) {
+	if (!length) {
+		length = 8;
+	}
 	var regex = new RegExp('.{1,' + length + '}', 'g'); // /.{1,8}/g
 	return str.match(regex);
+};
+
+// @param arr {Array} array of equal length binary strings
+// @return {String} least significant bits
+binary.lsb = function(arr) {
+	
+	var output = '';
+	
+	for (var i=0, len=arr.length; i<len; i++) {
+		var byteLength = arr[i].length;
+		var bit = arr[i][byteLength - 1];
+		var out = bit === '0' ? '0' : '1';
+		output += out;
+	}
+
+	return output;
+
 };

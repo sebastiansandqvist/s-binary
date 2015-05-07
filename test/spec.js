@@ -31,6 +31,10 @@ describe('unit conversion', function() {
 		expect(binary.toBinary(255)).to.equal('11111111');
 	});
 
+	// it('should convert binary to base64', function() {
+	// 	expect(binary.toBase64('11111111')).to.equal('MjU1');
+	// });
+
 	it('should convert strings to binary', function() {
 		expect(binary.toBinary('test')).to.equal('01110100011001010111001101110100');
 		expect(binary.toBinary('hi')).to.equal('0110100001101001');
@@ -40,6 +44,13 @@ describe('unit conversion', function() {
 		var buf = new Buffer(2);
 		buf.write('hi');
 		expect(binary.toBinary(buf)).to.equal('0110100001101001');
+	});
+
+	it('should convert binary to unicode', function() {
+		var test = '01110100011001010111001101110100';
+		var hi = '0110100001101001';
+		expect(binary.toUnicode(test)).to.equal('test');
+		expect(binary.toUnicode(hi)).to.equal('hi');
 	});
 
 });
@@ -196,6 +207,12 @@ describe('etc', function() {
 	it('split', function() {
 		expect(binary.split('1011', 2)).to.deep.equal(['10','11']);
 		expect(binary.split('10111', 3)).to.deep.equal(['101','11']);
+		expect(binary.split('1111111100000000')).to.deep.equal(['11111111', '00000000'])
+	});
+
+	it('lsb', function() {
+		var arr = binary.split(binary.toBinary('this is a test'), 8);
+		expect(binary.lsb(arr)).to.equal('00110110100110');
 	});
 
 });
