@@ -1,6 +1,6 @@
 {
   "name": "s-binary",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Simple operations for binary strings",
   "main": "index.js",
   "directories": {
@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/sebastiansandqvist/s-binary",
   "devDependencies": {
-    "blanket": "^1.1.6",
+    "blanket": "1.1.6",
     "chai": "^2.3.0",
     "codeclimate-test-reporter": "0.0.4",
     "gulp": "^3.8.11",
