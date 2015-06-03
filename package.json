@@ -1,15 +1,16 @@
 {
   "name": "s-binary",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Simple operations for binary strings",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
+  "files": ["index.js", "test", "README.md"],
   "scripts": {
     "test": "mocha",
-    "coverage_html": "mocha --require blanket -R html-cov > etc/coverage.html",
-    "coverage": "mocha --require blanket --reporter mocha-lcov-reporter > etc/lcov.info"
+    "coverage_html": "mkdir -p etc && mocha --require blanket -R html-cov > etc/coverage.html",
+    "coverage": "mkdir -p etc && mocha --require blanket --reporter mocha-lcov-reporter > etc/lcov.info"
   },
   "repository": {
     "type": "git",
