@@ -29,14 +29,21 @@ binary.toHex = function(str) {
 // };
 
 // @param n {Number | String | Buffer} input
+// @param len? {Number} optional bitlength restriction
 // @return {String} 8bit binary conversion
-// todo: get more test cases & verify
-binary.toBinary = function(n) {
+binary.toBinary = function(n, len) {
 
 	var type = Object.prototype.toString.call(n);
 
 	if (type === '[object Number]') {
-		return n.toString(2);
+		
+		if (len) {
+			return binary.pad(n.toString(2), len);
+		}
+		else {
+			return n.toString(2);
+		}
+		
 	}
 
 	var output = '';
@@ -63,7 +70,7 @@ binary.toUnicode = function(str) {
 	var arr = binary.split(str);
 	var output = '';
 	
-	for (var i=0, len=arr.length; i<len; i++) {
+	for (var i = 0, len = arr.length; i < len; i++) {
 		var integer = binary.toInt(arr[i]);
 		output += String.fromCharCode(integer);
 	}
@@ -78,24 +85,46 @@ binary.toUnicode = function(str) {
 
 // @param a {String} binary number
 // @param b {String} binary number
-// todo: @param n {Number} optional bitLength restriction
-binary.add = function(a, b) {
-	a = parseInt(a, 2);
-	b = parseInt(b, 2);
-	return (a + b).toString(2);
+// @param len? {Number} optional bitLength restriction
+binary.add = function(a, b, len) {
+
+	if (!len) {
+		a = parseInt(a, 2);
+		b = parseInt(b, 2);
+		return (a + b).toString(2);
+	}
+
+	a = binary.pad(a, len);
+	b = binary.pad(b, len);
+
+	var result = '';
+	var carry = '0';
+
+	for (var i = len - 1; i >= 0; i--) {
+
+		var and = binary.and(a[i], b[i]);
+		var xor = binary.xor(a[i], b[i]);
+		var sum = binary.xor(xor, carry);
+
+		result = sum + result;
+		carry = binary.or(and, binary.and(xor, carry));
+
+	}
+
+	return result;
+
 };
 
 binary.addBits = function(a, b) {
+
 	a = a === '1' ? 1 : 0;
 	b = b === '1' ? 1 : 0;
 
 	var sum = a ^ b;
 	var carry = a & b;
 
-	return {
-		sum: sum.toString(),
-		carry: carry.toString()
-	};
+	return [sum.toString(), carry.toString()];
+
 };
 
 // @param a {String} binary number
@@ -120,11 +149,15 @@ binary.divide = function(a, b) {
 // ----- logic
 // ---------------------------------------
 binary.not = function(str) {
+
 	var inverse = '';
+
 	for (var i = 0; i < str.length; i++) {
 		inverse += str[i] === '1' ? '0' : '1';
 	}
+
 	return inverse;
+
 };
 
 binary.and = function(a, b) {
@@ -179,6 +212,7 @@ binary.nor = function(a, b) {
 	return binary.not(or);
 };
 
+// http://jsperf.com/bitwise-vs-string-operations
 binary.xor = function(a, b) {
 
 	var eq = binary.equalize(a, b);
@@ -188,11 +222,11 @@ binary.xor = function(a, b) {
 	var result = '';
 
 	for (var i = 0; i < a.length; i++) {
-		if (a[i] !== b[i]) {
-			result += '1';
+		if (a[i] === b[i]) {
+			result += '0';
 		}
 		else {
-			result += '0';
+			result += '1';
 		}
 	}
 
@@ -260,13 +294,13 @@ binary.equalize = function(a, b) {
 };
 
 // @param str {String} binary string
-// @param length {Number} optional number of characters per chunk; default is 8
+// @param len? {Number} optional number of characters per chunk; default is 8
 // @return {Array}
-binary.split = function(str, length) {
-	if (!length) {
-		length = 8;
+binary.split = function(str, len) {
+	if (!len) {
+		len = 8;
 	}
-	var regex = new RegExp('.{1,' + length + '}', 'g'); // /.{1,8}/g
+	var regex = new RegExp('.{1,' + len + '}', 'g'); // /.{1,8}/g
 	return str.match(regex);
 };
 
@@ -276,7 +310,7 @@ binary.lsb = function(arr) {
 	
 	var output = '';
 	
-	for (var i=0, len=arr.length; i<len; i++) {
+	for (var i = 0, len = arr.length; i < len; i++) {
 		var byteLength = arr[i].length;
 		var bit = arr[i][byteLength - 1];
 		var out = bit === '0' ? '0' : '1';

@@ -9,6 +9,15 @@
 var binary = require('s-binary');
 
 binary.toInt('11001100'); // returns 204
+
+// 8bit 5 - 9
+var five = binary.toBinary(5, 8); // '00000101'
+var nine = binary.toBinary(9, 8); // '00001001'
+var negativeNine = binary.complement(nine); // '11110111'
+var sum = binary.add(five, negativeNine); // '11111100'
+var checkAnswer = binary.complement(sum); // '00000100'
+
+binary.toInt(checkAnswer); // 4
 ```
 
 ## Installation
@@ -49,7 +58,8 @@ binary.add('111', '1'); // returns '1000'
 
 ##### Bit addition
 ```javascript
-binary.addBits('1', '1'); // returns {sum: '0', carry: '1'}
+binary.addBits('1', '1'); // returns ['0', '1']
+// ------------------------------- sum ^ -- ^ carry
 ```
 
 ##### Multiplication

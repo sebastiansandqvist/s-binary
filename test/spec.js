@@ -31,6 +31,11 @@ describe('unit conversion', function() {
 		expect(binary.toBinary(255)).to.equal('11111111');
 	});
 
+	it('should convert integer to binary with given length', function() {
+		expect(binary.toBinary(10, 8)).to.equal('00001010');
+		expect(binary.toBinary(255, 8)).to.equal('11111111');
+	});
+
 	// it('should convert binary to base64', function() {
 	// 	expect(binary.toBase64('11111111')).to.equal('MjU1');
 	// });
@@ -63,34 +68,47 @@ describe('arithmetic', function() {
 	});
 
 	it('should add two bits', function() {
-		
-		expect(binary.addBits('0', '0')).to.deep.equal({
-			sum: '0',
-			carry: '0'
-		});
-
-		expect(binary.addBits('0', '1')).to.deep.equal({
-			sum: '1',
-			carry: '0'
-		});
-
-		expect(binary.addBits('1', '0')).to.deep.equal({
-			sum: '1',
-			carry: '0'
-		});
-
-		expect(binary.addBits('1', '1')).to.deep.equal({
-			sum: '0',
-			carry: '1'
-		});
-
+		expect(binary.addBits('0', '0')).to.deep.equal(['0', '0']);
+		expect(binary.addBits('0', '1')).to.deep.equal(['1', '0']);
+		expect(binary.addBits('1', '0')).to.deep.equal(['1', '0']);
+		expect(binary.addBits('1', '1')).to.deep.equal(['0', '1']);
 	});
 
-	it('should restrict addition to a given number of bits');
+	it('should restrict addition to a given number of bits', function() {
+		
+		expect(binary.add('0', '0', 4)).to.equal('0000');
+		expect(binary.add('0', '1', 4)).to.equal('0001');
+		expect(binary.add('1', '0', 4)).to.equal('0001');
+		expect(binary.add('1', '1', 4)).to.equal('0010');
 
-	it('should subtract two binary numbers');
+		expect(binary.add('10', '0', 4)).to.equal('0010');
+		expect(binary.add('10', '1', 4)).to.equal('0011');
+		expect(binary.add('11', '0', 4)).to.equal('0011');
+		expect(binary.add('11', '1', 4)).to.equal('0100');
 
-	it('should restrict subtraction to a given number of bits');
+		expect(binary.add('0', '10', 4)).to.equal('0010');
+		expect(binary.add('0', '11', 4)).to.equal('0011');
+		expect(binary.add('1', '10', 4)).to.equal('0011');
+		expect(binary.add('1', '11', 4)).to.equal('0100');
+
+		expect(binary.add('00', '00', 4)).to.equal('0000');
+		expect(binary.add('00', '01', 4)).to.equal('0001');
+		expect(binary.add('00', '10', 4)).to.equal('0010');
+		expect(binary.add('00', '11', 4)).to.equal('0011');
+		expect(binary.add('01', '00', 4)).to.equal('0001');
+		expect(binary.add('01', '01', 4)).to.equal('0010');
+		expect(binary.add('01', '10', 4)).to.equal('0011');
+		expect(binary.add('01', '11', 4)).to.equal('0100');
+		expect(binary.add('10', '00', 4)).to.equal('0010');
+		expect(binary.add('10', '01', 4)).to.equal('0011');
+		expect(binary.add('10', '10', 4)).to.equal('0100');
+		expect(binary.add('10', '11', 4)).to.equal('0101');
+		expect(binary.add('11', '00', 4)).to.equal('0011');
+		expect(binary.add('11', '01', 4)).to.equal('0100');
+		expect(binary.add('11', '10', 4)).to.equal('0101');
+		expect(binary.add('11', '11', 4)).to.equal('0110');
+
+	});
 
 	it('should multiply two binary numbers', function() {
 		expect(binary.multiply('0','0')).to.equal('0');
@@ -165,7 +183,8 @@ describe('logic', function() {
 		expect(binary.xor('101', '1010')).to.equal('1111');
 	});
 
-	it('should perform two\'s complement', function() {
+	it('two\'s complement', function() {
+		expect(binary.complement('00000001')).to.equal('11111111');
 		expect(binary.complement('00000101')).to.equal('11111011');
 		expect(binary.complement('11111011')).to.equal('00000101');
 		expect(binary.complement('1010110')).to.equal('0101010'); // 7 bit

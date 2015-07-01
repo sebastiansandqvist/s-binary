@@ -1,14 +1,21 @@
 {
   "name": "s-binary",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Simple operations for binary strings",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "files": ["index.js", "test", "README.md", "etc/coverage.html"],
+  "files": [
+    "index.js",
+    "test",
+    "README.md",
+    "etc/coverage.html"
+  ],
   "scripts": {
     "test": "mocha",
+    "lint": "gulp",
+    "codestyle": "jscs index.js --config=./etc/.jscs.json",
     "coverage": "mocha --require blanket --reporter mocha-lcov-reporter > etc/lcov.info"
   },
   "repository": {
@@ -37,6 +44,7 @@
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.10.0",
     "gulp-mocha": "^2.0.1",
+    "jscs": "^1.13.1",
     "jshint-stylish": "^1.0.2",
     "mocha": "^2.2.4",
     "mocha-lcov-reporter": "0.0.2"
