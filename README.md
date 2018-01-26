@@ -1,8 +1,8 @@
-# s-binary 
+# s-binary
 
 ## Work in progress
 
-[![NPM version](https://img.shields.io/npm/v/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Dependencies](https://img.shields.io/david/sebastiansandqvist/s-binary.svg) [![build status](http://img.shields.io/travis/sebastiansandqvist/s-binary.svg)](https://travis-ci.org/sebastiansandqvist/s-binary) [![NPM license](https://img.shields.io/npm/l/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Stability](https://img.shields.io/badge/stability-unstable-orange.svg) [![Test Coverage](https://codeclimate.com/github/sebastiansandqvist/s-binary/badges/coverage.svg)](https://codeclimate.com/github/sebastiansandqvist/s-binary/coverage)
+[![NPM version](https://img.shields.io/npm/v/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Dependencies](https://img.shields.io/david/sebastiansandqvist/s-binary.svg) [![build status](http://img.shields.io/travis/sebastiansandqvist/s-binary.svg)](https://travis-ci.org/sebastiansandqvist/s-binary) [![NPM license](https://img.shields.io/npm/l/s-binary.svg)](https://www.npmjs.com/package/s-binary) ![Stability](https://img.shields.io/badge/stability-unstable-orange.svg)
 
 ## Usage example
 ```javascript
@@ -113,15 +113,6 @@ binary.complement('00000101'); // returns '11111011'
 ##### (Left) pad
 ```javascript
 binary.pad('01', 4); // returns '0001' (left pad)
-```
-
-##### Pad (and return error if input length > output length)
-```javascript
-binary.padSafe('111111', 2, function(err, output) {
-	if (!err) {
-		return output; // this will not run
-	}
-});
 ```
 
 ##### Equalize lengths by padding shorter value
